@@ -81,12 +81,8 @@ namespace jps_planner{
             {
                 Node top = openList[0];//取cost最小的节点
                 std::pop_heap(openList.begin(), openList.end(), greater1());
-                std::cout<<" top.index:"<<top.index<<" openList.size: "<<openList.size()<<std::endl;
                 float pre_jps_gcost = top.gcost; // 记录上一个跳点的gcost
                 openList.pop_back();
-
-                //删除该节点并重新排序
-                //if(openList.size() > 1) std::pop_heap(openList.begin(), openList.end(), greater1());
 
                 int current_index = top.index;
 
@@ -108,7 +104,6 @@ namespace jps_planner{
 
         void jpsPlanner::getJumpNode(int index, std::vector<bool>& visted, 
             std::vector<int>& cameFrom, int goal_index, float current_gcost){
-                //std::cout<<" into getJumpNode ";
                 // int pre_index = cameFrom[index];
                 // unsigned pre_x, pre_y, current_x, current_y;
                 // if(pre_index == -1){
