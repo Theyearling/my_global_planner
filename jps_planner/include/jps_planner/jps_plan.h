@@ -2,13 +2,13 @@
 #define JPS_PLANNER_JPS_PLAN_H_
 
 #include <iostream>
-#include <ros/ros.h>
-#include <costmap_2d/costmap_2d_ros.h>
-#include <costmap_2d/costmap_2d.h>
-#include <nav_core/base_global_planner.h>
+// #include <ros/ros.h>
+// #include <costmap_2d/costmap_2d_ros.h>
+// #include <costmap_2d/costmap_2d.h>
+// #include <nav_core/base_global_planner.h>
 
-#include <geometry_msgs/PoseStamped.h>
-#include <nav_msgs/Path.h>
+// #include <geometry_msgs/PoseStamped.h>
+// #include <nav_msgs/Path.h>
 
 #include <vector>
 
@@ -49,7 +49,7 @@ namespace jps_planner{
          void getJumpNode(int index, std::vector<bool>& visted, 
             std::vector<int>& cameFrom, int goal_index, float current_gcost);
 
-         std::vector<unsigned int> getFreeNeighbourCell(int current_x, int current_y, std::vector<bool>& visted);
+         std::vector<unsigned int> getForceNeighbourCell(int current_x, int current_y, std::vector<bool>& visted, int diff_x, int diff_y);
 
          inline int getOri(int diff){
              if(diff == 0) return 0;
@@ -65,6 +65,8 @@ namespace jps_planner{
          float getGCost(int pre_index, int current_index);
 
          void publishPlan(std::vector<geometry_msgs::PoseStamped> path);
+
+         bool addJpsNode(float gcost, int current_index, int goal_index, int pre_index, std::vector<bool>& visted, std::vector<int>& cameFrom);
 
 
      public:
