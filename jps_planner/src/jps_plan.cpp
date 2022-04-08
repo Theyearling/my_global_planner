@@ -232,8 +232,11 @@ namespace jps_planner{
                             return addJpsNode(gcost, next_index, goal_index, pre_jps_index, visted, cameFrom);
                         }
                         //分别进行横向纵向搜索跳点
-                        if(searchJPS(pre_jps_index, current_x, current_y, visted, cameFrom, dx, 0, goal_index, gcost) ||
-                            searchJPS(pre_jps_index, current_x, current_y, visted, cameFrom, 0, dy, goal_index, gcost)){
+			bool hasJps = false;
+                        if(searchJPS(next_index, next_x, next_y, visted, cameFrom, dx, 0, goal_index, gcost)){
+                                hasJps = true;
+                            }
+			if(searchJPS(next_index, next_x, next_y, visted, cameFrom, 0, dy, goal_index, gcost) || hasJps){
                                 return addJpsNode(gcost, next_index, goal_index, pre_jps_index, visted, cameFrom);
                             }
 
