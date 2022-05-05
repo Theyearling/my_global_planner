@@ -5,7 +5,7 @@ clear all;       %清除工作空间的所有变量，函数，和MEX文件
 close all;       %关闭所有的figure窗口
 
 n = 20;
-wallpercent = 0.4;
+wallpercent = 0.1;
 [field, start, goal] = initialize(n,wallpercent);
 camefrom = -1*ones(n);
 openList = [start, 0, 0]
@@ -17,8 +17,19 @@ while ~isempty(openList)
     pause(1);
     [min_cost, col] = min(openList(:,3));
     jps_index = openList(col, 1);
+    field(jps_index) = 0.75;
     pre_gcost = openList(col, 2);
     [jps_x, jps_y] = ind2sub([n,n],jps_index);
+    %到达目标点
+    if jps_index == goal
+        path = getPath(camefrom, goal, start);
+        disp('get Path');
+        plot(path(:,2)+0.5,path(:,1)+0.5,'Color',0.2*ones(3,1),'LineWidth',4);  %用 plot函数绘制路径曲线
+        drawnow;
+        drawnow;
+        return;
+    end
+    
     %搜索跳点
     if camefrom(jps_index) == 0
         for ii = [-1, 0 , 1]
@@ -33,16 +44,15 @@ while ~isempty(openList)
     else
         [dx, dy] = getDelta(jps_index, jps_x, jps_y, camefrom);
         delta = [dx, dy];
+        %朝强制邻居点搜索
         delta = getForceNer(jps_x,jps_y,dx,dy,camefrom,field,delta);
         [a,b] = size(delta);
         for col_i=1:a
             [camefrom, openList, judge, field] = searchJps(jps_index,jps_x,jps_y,delta(col_i,1),delta(col_i,2),pre_gcost,camefrom,field,openList,goal);
-        end
-        %朝强制邻居点搜索
-        
+        end   
     end
+    
     %取出最小代价节点
-    openList
     if col > 1 && col < length(openList)
         disp('中间')
         openList = [openList(1: col - 1,1: 3); openList(col + 1: end,1: 3)]
@@ -60,7 +70,7 @@ while ~isempty(openList)
         return; 
     end
     set(axishandle,'CData',[field field(:,end); field(end,:) field(end,end)]);
-    set(gca,'CLim',[0 1*max(field(field < Inf))]);
+    set(gca,'CLim',[0 1]);
     drawnow; 
 end
 

@@ -27,7 +27,7 @@ function [camefrom, openList, judge, field] = searchJps(jps_index, pre_x, pre_y,
         [camefrom, openList, judgey, field] = searchJps(next_index, next_x, next_y, 0, dy, pre_gcost, camefrom, field, openList, goal);
         % V¼â½ÇÇé¿ö
         if isVangle(pre_x, pre_y, next_x, next_y, dx, dy, field) || judgex || judgey
-            cost = pre_gcost + 10*getHcost(next_x, next_y, goal, field);
+            cost = pre_gcost + 2*getHcost(next_x, next_y, goal, field);
             [openList, camefrom, judge, field] = addJpsNode(jps_index, pre_gcost, cost, openList, camefrom, next_index, field);
             return;
         end   
@@ -35,11 +35,11 @@ function [camefrom, openList, judge, field] = searchJps(jps_index, pre_x, pre_y,
         pre_gcost = pre_gcost + 1;
         % ×ÝÏòËÑË÷
         if ~isAvailable(next_x, next_y + 1, field) && isAvailable(next_x + dx, next_y, field) && isAvailable(next_x + dx, next_y + 1, field)
-            cost = pre_gcost + 10*getHcost(next_x, next_y, goal, field);
+            cost = pre_gcost + 2*getHcost(next_x, next_y, goal, field);
             [openList, camefrom, judge, field] = addJpsNode(jps_index,pre_gcost, cost, openList, camefrom, next_index, field);
             return;
         elseif ~isAvailable(next_x, next_y - 1, field) && isAvailable(next_x + dx, next_y, field) && isAvailable(next_x + dx, next_y - 1, field)
-            cost = pre_gcost + 10*getHcost(next_x, next_y, goal, field);
+            cost = pre_gcost + 2*getHcost(next_x, next_y, goal, field);
             [openList, camefrom, judge, field] = addJpsNode(jps_index,pre_gcost, cost, openList, camefrom, next_index, field);
             return;
         end
@@ -47,11 +47,11 @@ function [camefrom, openList, judge, field] = searchJps(jps_index, pre_x, pre_y,
         % ºáÏòËÑË÷
         pre_gcost = pre_gcost + 1;
         if ~isAvailable(next_x + 1, next_y, field) && isAvailable(next_x, next_y + dy, field) && isAvailable(next_x + 1, next_y + dy, field)
-            cost = pre_gcost + 10*getHcost(next_x, next_y, goal, field);
+            cost = pre_gcost + 2*getHcost(next_x, next_y, goal, field);
             [openList, camefrom, judge, field] = addJpsNode(jps_index,pre_gcost, cost, openList, camefrom, next_index, field);
             return;
         elseif ~isAvailable(next_x - 1, next_y, field) && isAvailable(next_x, next_y + dy, field) && isAvailable(next_x - 1, next_y + dy, field)
-            cost = pre_gcost + 10*getHcost(next_x, next_y, goal, field);
+            cost = pre_gcost + 2*getHcost(next_x, next_y, goal, field);
             [openList, camefrom, judge, field] = addJpsNode(jps_index,pre_gcost, cost, openList, camefrom, next_index, field);
             return;
         end

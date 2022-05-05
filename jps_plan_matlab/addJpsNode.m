@@ -4,8 +4,8 @@ function [openList, camefrom, judge, field] = addJpsNode(jps_index,pre_gcost, co
          return;
     end
     openList = [openList; next_index, pre_gcost, cost]
-    max_num = max(field, [], 'ALL');
-    field(next_index) = max_num + 1;
+    %max_num = max(field, [], 'ALL');
+    field(next_index) = 0.5;
     camefrom(next_index) = jps_index;
     judge = 1;
 end
